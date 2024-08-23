@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Parameter Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: black;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Parameter Extractor</h1>
+        <label for="urlInput">Enter URL:</label>
+        <input type="text" id="urlInput" placeholder="https://example.com/?param=value">
+
+        <label for="paramInput">Enter Parameter Name:</label>
+        <input type="text" id="paramInput" placeholder="param">
+
+        <button onclick="extractParameter()">Get Parameter Value</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function getUrlParameterValue(url, parameter) {
+            try {
+                const urlObject = new URL(url);
+                const params = new URLSearchParams(urlObject.search);
+                return params.get(parameter);
+            } catch (error) {
+                console.error('Invalid URL or parameter error:', error);
+                return null;
+            }
+        }
+
+        function extractParameter() {
+            const url = document.getElementById('urlInput').value;
+            if(!url){
+                alert("Enter URL");
+                return;
+            }
+            const parameter = document.getElementById('paramInput').value;
+            const result = getUrlParameterValue(url, parameter);
+            const resultDiv = document.getElementById('result');
+
+            if (result !== null) {
+                resultDiv.textContent = `Value of "${parameter}": ${result}`;
+            } else {
+                resultDiv.textContent = `Parameter "${parameter}" not found or invalid URL.`;
+            }
+        }
+    </script>
+</body>
+</html>
